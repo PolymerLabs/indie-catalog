@@ -1,0 +1,46 @@
+<link rel="import" href="/bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="/bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="/bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="/bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="/bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="/bower_components/polymer/polymer-element.html">
+
+<dom-module id="content-wrapper">
+  <template>
+    <style>
+      app-header {
+        background-color: var(--header-background, black);
+        color: var(--header-foreground, white);
+      }
+      app-toolbar {
+        padding-left: 28px;
+        letter-spacing: 0.02em;
+      }
+      div[main-title] {
+        font-size: 2.5em;
+        margin-top: auto;
+      }
+    </style>
+    <app-header-layout>
+      <app-header style="height: 256px;" condenses fixed effects="resize-title" slot="header">
+        <app-toolbar>
+          <div condensed-title>Indie elements catalog</div>
+        </app-toolbar>
+        <app-toolbar></app-toolbar>
+        <app-toolbar>
+          <div main-title>Indie elements catalog</div>
+        </app-toolbar>
+      </app-header>
+
+      <slot></slot>
+    </app-header-layout>
+  </template>
+  <script>
+    class ContentWrapper extends Polymer.Element {
+      static get is() { return 'content-wrapper'; }
+    }
+
+    // Associate the new class with an element name
+    customElements.define(ContentWrapper.is, ContentWrapper);
+  </script>
+</dom-module>

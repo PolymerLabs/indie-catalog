@@ -7,14 +7,7 @@
 
     <title>Indie catalog</title>
     <meta name="description" content="Indie elements catalog">
-
-    <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-
-    <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
-    <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
-    <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
-    <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
-
+    <link rel="import" href="elements/content-wrapper.html">
     <style>
       body {
         margin: 0;
@@ -49,40 +42,15 @@
         line-height: 1.25rem;
         color: rgba(0, 0, 0, 0.54));
       }
-      app-toolbar {
-        padding-left: 28px;
-        letter-spacing: 0.02em;
-      }
-      div[main-title] {
-        font-size: 2.5em;
-        margin-top: auto;
+
+      html {
+        --header-background: #fbbc05;
+        --header-foreground: rgba(0,0,0,.7);
       }
     </style>
-
-    <custom-style>
-      <style is="custom-style">
-        html {
-          --header-background: #fbbc05;
-          --header-foreground: rgba(0,0,0,.7);
-        }
-        app-header {
-          background-color: var(--header-background, black);
-          color: var(--header-foreground, white);
-        }
-      </style>
-    </custom-style>
   </head>
   <body>
-    <app-header-layout>
-      <app-header style="height: 256px;" condenses fixed effects="resize-title" slot="header">
-        <app-toolbar>
-          <div condensed-title>Indie elements catalog</div>
-        </app-toolbar>
-        <app-toolbar></app-toolbar>
-        <app-toolbar>
-          <div main-title>Indie elements catalog</div>
-        </app-toolbar>
-      </app-header>
+    <content-wrapper>
       <ul>
         <li>
           <a>
@@ -188,7 +156,8 @@
         </li>
 
       </ul>
-    </app-header-layout>
+    </content-wrapper>
+
 
 
     <noscript>
