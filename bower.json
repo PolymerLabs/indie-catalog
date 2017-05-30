@@ -1,0 +1,15 @@
+{
+  "name": "indie-catalog",
+  "homepage": "https://github.com/notwaldorf/indie-catalog",
+  "authors": [
+    "Monica Dinculescu <noms@google.com>"
+  ],
+  "description": "a simple catalog for demoing elements",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "polymer": "polymer/polymer#^2.0.0",
+    "app-layout": "PolymerElements/app-layout#^2.0.0"
+  }
+}
