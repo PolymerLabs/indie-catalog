@@ -51,14 +51,23 @@
       }
       app-toolbar {
         padding-left: 28px;
+        letter-spacing: 0.02em;
+      }
+      div[main-title] {
+        font-size: 2.5em;
+        margin-top: auto;
       }
     </style>
 
     <custom-style>
       <style is="custom-style">
+        html {
+          --header-background: #fbbc05;
+          --header-foreground: rgba(0,0,0,.7);
+        }
         app-header {
           background-color: var(--header-background, black);
-          color: #fff;
+          color: var(--header-foreground, white);
         }
       </style>
     </custom-style>
@@ -67,10 +76,11 @@
     <app-header-layout>
       <app-header style="height: 256px;" condenses fixed effects="resize-title" slot="header">
         <app-toolbar>
-          <h4 condensed-title>Indie elements catalog</i></h4>
+          <div condensed-title>Indie elements catalog</div>
         </app-toolbar>
-        <app-toolbar class="tall">
-          <h1 main-title>Indie elements catalog</h1>
+        <app-toolbar></app-toolbar>
+        <app-toolbar>
+          <div main-title>Indie elements catalog</div>
         </app-toolbar>
       </app-header>
       <ul>
