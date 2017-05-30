@@ -7,8 +7,16 @@
 
     <title>Indie catalog</title>
     <meta name="description" content="Indie elements catalog">
+    <link rel="import" href="/bower_components/polymer/polymer-element.html">
+    <link rel="import" href="/bower_components/polymer/lib/elements/dom-repeat.html">
+
     <link rel="import" href="elements/content-wrapper.html">
+    <link rel="import" href="elements/list-item.html">
     <style>
+      html {
+        --header-background: #fbbc05;
+        --header-foreground: rgba(0,0,0,.7);
+      }
       body {
         margin: 0;
         font-family: 'Roboto', 'Noto', sans-serif;
@@ -16,152 +24,28 @@
         min-height: 100vh;
         background-color: #eeeeee;
       }
-      ul {
-        font-size: 1rem;
-        font-weight: 400;
-        letter-spacing: 0.04em;
-        line-height: 1.75rem;
-        list-style-type: none;
-        padding: 0 24px;
-      }
-
-      ul li {
-        margin-bottom: 28px;
-      }
-
-      ul li a {
-        text-decoration: none;
-        display: inline-flex;
-        flex-direction: column;
-      }
-
-      ul li a span {
-        font-size: 0.875rem;
-        font-weight: 400;
-        letter-spacing: 0.04em;
-        line-height: 1.25rem;
-        color: rgba(0, 0, 0, 0.54));
-      }
-
-      html {
-        --header-background: #fbbc05;
-        --header-foreground: rgba(0,0,0,.7);
+      list-item {
+        padding: 8px 28px;
       }
     </style>
   </head>
   <body>
     <content-wrapper>
-      <ul>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-        <li>
-          <a>
-            Title
-            <span>Subtitle subtitle</span>
-          </a>
-        </li>
-
-      </ul>
+      <dom-repeat>
+        <template>
+          <list-item title="[[item.title]]" subtitle=[[item.subtitle]]></list-item>
+        </template>
+      </dom-repeat>
     </content-wrapper>
-
-
 
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
+
+    <script>
+      var fakeData = Array(20).fill({title: 'Title', subtitle: 'subtitle subtitle'})
+      var domrepeat = document.querySelector('dom-repeat');
+      domrepeat.items = fakeData;
+    </script>
   </body>
 </html>

@@ -1,0 +1,52 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html">
+
+<dom-module id="list-item">
+  <template>
+    <style>
+      :host{
+        display: block;
+        font-size: 1rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        line-height: 1.75rem;
+        cursor: pointer;
+      }
+
+      :host(:hover) {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+      }
+
+      a {
+        text-decoration: none;
+        display: inline-flex;
+        flex-direction: column;
+      }
+
+      span {
+        font-size: 0.875rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        line-height: 1.25rem;
+        color: rgba(0, 0, 0, 0.54);
+      }
+    </style>
+      <a>
+        [[title]]
+        <span>[[subtitle]]</span>
+      </a>
+  </template>
+  <script>
+    class ListItem extends Polymer.Element {
+      static get is() { return 'list-item'; }
+      static get properties() {
+        return {
+          title: String,
+          subtitle: String
+        }
+      }
+    }
+
+    // Associate the new class with an element name
+    customElements.define(ListItem.is, ListItem);
+  </script>
+</dom-module>
