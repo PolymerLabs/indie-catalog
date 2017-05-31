@@ -19,7 +19,8 @@ Put the git repos of elements you care about in `catalog.json`. Here's a sample
 ```
 
 This is making some assumptions about your elements:
-- they are in bower
+- the git repo is accessible
+- running `bower install` in that repo completes successfully
 - they have a demo folder, in `element-name/demo`
 - your element is written using relative paths for the elements it
 depends on, rather than using `bower_components` anywhere. See

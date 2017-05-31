@@ -2,11 +2,15 @@
   "packages": {
     "paper-input": {
        "git": "https://github.com/polymerelements/paper-input",
-       "description": "a less shitty input"
+       "description": "A Material Design text field"
     },
     "paper-button": {
       "git": "https://github.com/polymerelements/paper-button",
-      "description": "a defo shittier button"
+      "description": "A Material Design button"
+    },
+    "emoji-rain": {
+      "git": "https://github.com/notwaldorf/emoji-rain",
+      "description": "A magical emoji rain element"
     }
   }
 }
