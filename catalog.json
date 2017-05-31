@@ -11,6 +11,10 @@
     "emoji-rain": {
       "git": "https://github.com/notwaldorf/emoji-rain",
       "description": "A magical emoji rain element"
+    },
+    "lazy-image": {
+      "git": "https://github.com/notwaldorf/lazy-image",
+      "description": "A custom image element that lets you load resources on demand"
     }
   }
 }
