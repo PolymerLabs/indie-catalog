@@ -17,9 +17,11 @@
       }
 
       a {
+        color: inherit;
         text-decoration: none;
         display: inline-flex;
         flex-direction: column;
+        width: 100%;
       }
 
       span {
@@ -30,7 +32,7 @@
         color: rgba(0, 0, 0, 0.54);
       }
     </style>
-      <a>
+      <a href$="[[href]]" target="_blank">
         [[title]]
         <span>[[subtitle]]</span>
       </a>
@@ -41,7 +43,8 @@
       static get properties() {
         return {
           title: String,
-          subtitle: String
+          subtitle: String,
+          href: String
         }
       }
     }
