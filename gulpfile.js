@@ -26,6 +26,7 @@ gulp.task('checkout', function() {
         console.log(err);
         return;
       }
+      
       del([path + '/.git']);
       del([path + '/.gitignore']);
 
