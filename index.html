@@ -48,7 +48,7 @@
       const domrepeat = document.querySelector('dom-repeat');
       const ajax = document.createElement('iron-ajax');
       ajax.url = 'catalog.json';
-      
+
       ajax.generateRequest().completes.then(
         function(event) {
           for (var el in event.response.packages) {
