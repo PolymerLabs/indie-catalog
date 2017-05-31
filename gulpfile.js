@@ -20,11 +20,13 @@ gulp.task('checkout', function() {
     let path = __dirname + '/dist/' + repo;
     let repoName = repo;
     repos.push(path);
-    
-    git.clone(packages[repo].git, {args: path}, function (err) {
+
+    git.clone(packages[repo].git, {args: '--depth 1 -- ' + path}, function (err) {
       if (err) {
         console.log(err);
+        return;
       }
+      del([path + '/.git']);
       console.log('Running bower install in ' + path);
       bower({cwd: path, verbosity: 1}).on('end', function() {
         // Copy the element in the bower_components, so the demo works.
