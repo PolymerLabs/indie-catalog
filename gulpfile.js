@@ -27,6 +27,8 @@ gulp.task('checkout', function() {
         return;
       }
       del([path + '/.git']);
+      del([path + '/.gitignore']);
+
       console.log('Running bower install in ' + path);
       bower({cwd: path, verbosity: 1}).on('end', function() {
         // Copy the element in the bower_components, so the demo works.
