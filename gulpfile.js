@@ -19,7 +19,7 @@ gulp.task('checkout', function() {
   for (var repo in packages) {
     let path = __dirname + '/dist/' + repo;
     repos.push(path);
-    git.clone(packages[repo], {args: path}, function (err) {
+    git.clone(packages[repo].git, {args: path}, function (err) {
       if (err) {
         console.log(err);
       }

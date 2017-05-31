@@ -9,6 +9,7 @@
     <meta name="description" content="Indie elements catalog">
     <link rel="import" href="/bower_components/polymer/polymer-element.html">
     <link rel="import" href="/bower_components/polymer/lib/elements/dom-repeat.html">
+    <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 
     <link rel="import" href="elements/content-wrapper.html">
     <link rel="import" href="elements/list-item.html">
@@ -33,7 +34,7 @@
     <content-wrapper>
       <dom-repeat>
         <template>
-          <list-item title="[[item.title]]" subtitle=[[item.subtitle]]></list-item>
+          <list-item title="[[item.title]]" subtitle=[[item.subtitle]] href="[[item.href]]"></list-item>
         </template>
       </dom-repeat>
     </content-wrapper>
@@ -43,9 +44,26 @@
     </noscript>
 
     <script>
-      var fakeData = Array(20).fill({title: 'Title', subtitle: 'subtitle subtitle'})
-      var domrepeat = document.querySelector('dom-repeat');
-      domrepeat.items = fakeData;
+      let fakeData = [];
+      const domrepeat = document.querySelector('dom-repeat');
+      const ajax = document.createElement('iron-ajax');
+      ajax.url = 'catalog.json';
+      
+      ajax.generateRequest().completes.then(
+        function(event) {
+          for (var el in event.response.packages) {
+            fakeData.push({
+              title: el,
+              subtitle: event.response.packages[el].description,
+              href: `dist/${el}/bower_components/${el}/demo/index.html`
+            });
+          }
+          domrepeat.items = fakeData;
+        },
+        function(error) {
+          console.log('oops');
+        }
+      );
     </script>
   </body>
 </html>

@@ -1,6 +1,12 @@
 {
   "packages": {
-    "paper-input": "https://github.com/polymerelements/paper-input",
-    "paper-button": "https://github.com/polymerelements/paper-button"
+    "paper-input": {
+       "git": "https://github.com/polymerelements/paper-input",
+       "description": "a less shitty input"
+    },
+    "paper-button": {
+      "git": "https://github.com/polymerelements/paper-button",
+      "description": "a defo shittier button"
+    }
   }
 }
