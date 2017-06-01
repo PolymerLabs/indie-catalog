@@ -90,7 +90,11 @@
           this.$.frame.src = event.detail.location;
         });
         this.$.frame.addEventListener('load', function() {
-          this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+          try {
+            this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+          } catch(err) {
+            this.style.height = "500px";  // lol.
+          }
         });
       }
     }

@@ -1,12 +1,17 @@
 {
   "packages": {
     "paper-input": {
-       "git": "https://github.com/polymerelements/paper-input",
-       "description": "A Material Design text field"
+      "git": "https://github.com/polymerelements/paper-input",
+      "description": "A Material Design text field"
     },
     "paper-button": {
       "git": "https://github.com/polymerelements/paper-button",
       "description": "A Material Design button"
+    },
+    "paper-checkbox": {
+      "description": "A Material Design checkbox with remote docs and demo",
+      "demo": "https://raw-dot-custom-elements.appspot.com/PolymerElements/paper-checkbox/v2.0.0/paper-checkbox/demo/index.html",
+      "docs": "https://www.webcomponents.org/element/PolymerElements/paper-checkbox"
     },
     "emoji-rain": {
       "git": "https://github.com/notwaldorf/emoji-rain",

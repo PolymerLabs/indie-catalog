@@ -41,8 +41,8 @@
     </style>
     <div class="horizontal">
       [[title]]
-      <a href$="[[href]]/docs.html" on-click="_onClick">📖</a>
-      <a href$="[[href]]/bower_components/[[title]]/demo/index.html" on-click="_onClick">🎥</a>
+      <a href$="[[docs]]" on-click="_onClick">📖</a>
+      <a href$="[[demo]]" on-click="_onClick">🎥</a>
     </div>
     <span>[[subtitle]]</span>
   </template>
@@ -53,7 +53,8 @@
         return {
           title: String,
           subtitle: String,
-          href: String
+          demo: String,
+          docs: String
         }
       }
       _onClick(e) {

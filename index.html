@@ -34,9 +34,15 @@
     <content-wrapper>
       <dom-repeat>
         <template>
-          <list-item title="[[item.title]]" subtitle=[[item.subtitle]] href="[[item.href]]"></list-item>
+          <list-item
+              title="[[item.title]]"
+              subtitle=[[item.subtitle]]
+              demo="[[item.demo]]"
+              docs="[[item.docs]]">
+          </list-item>
         </template>
       </dom-repeat>
+
     </content-wrapper>
 
     <noscript>
@@ -51,11 +57,14 @@
 
       ajax.generateRequest().completes.then(
         function(event) {
-          for (var el in event.response.packages) {
+          let packages = event.response.packages;
+          for (var el in packages) {
+            // If there's a hardcoded demo or docs link, use that
             fakeData.push({
               title: el,
-              subtitle: event.response.packages[el].description,
-              href: `dist/${el}`
+              subtitle: packages[el].description,
+              demo: packages[el].demo ? packages[el].demo : `dist/${el}/bower_components/${el}/demo/index.html`,
+              docs: packages[el].docs ? packages[el].docs : `dist/${el}/docs.html`
             });
           }
           domrepeat.items = fakeData;

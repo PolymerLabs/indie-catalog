@@ -33,6 +33,11 @@ gulp.task('checkout', function() {
     let repoName = repo;  // save this for later because loops.
     repos.push(path);     // save this for later to run bower on.
 
+    // Skip this bit if there's nothing to clone.
+    if (!packages[repo].git) {
+      continue;
+    }
+    
     // Step 1. Clone the element.
     git.clone(packages[repo].git, {args: '--depth 1 -- ' + path}, function (err) {
       if (err) {
