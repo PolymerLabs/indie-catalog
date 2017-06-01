@@ -19,7 +19,8 @@
     },
     "lazy-image": {
       "git": "https://github.com/notwaldorf/lazy-image",
-      "description": "A custom image element that lets you load resources on demand"
+      "description": "A custom image element that lets you load resources on demand",
+      "demo": "dist/lazy-image/bower_components/lazy-image/index.html"    
     }
   }
 }

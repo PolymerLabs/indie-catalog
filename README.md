@@ -44,6 +44,17 @@ If the demo and docs are already hosted in a different place, you can use the
 }
 ```
 
+You can also use these properties this if your element has a demo not
+in a `/demo` subdirectory, by using relative paths:
+
+```
+"lazy-image": {
+  "git": "https://github.com/notwaldorf/lazy-image",
+  "description": "A custom image element that lets you load resources on demand",
+  "demo": "dist/lazy-image/bower_components/lazy-image/index.html"    
+}
+```
+
 ### Assumptions
 For either usage, the following extra assumptions are made:
 - running `bower install` in that repo completes successfully
