@@ -12,12 +12,6 @@
     "polymer": "polymer/polymer#^2.0.0",
     "app-layout": "PolymerElements/app-layout#^2.0.0",
     "iron-ajax": "polymerelements/iron-ajax#^2.0.0",
-    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#2.0-analyzer",
     "iron-media-query": "PolymerElements/iron-media-query#^2.0.0"
-  },
-  "resolutions": {
-    "polymer": "^2.0.0",
-    "webcomponentsjs": "^v1.0.0",
-    "iron-ajax": "^2.0.0"
   }
 }
