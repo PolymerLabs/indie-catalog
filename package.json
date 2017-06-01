@@ -21,6 +21,7 @@
     "gulp": "^3.9.1",
     "gulp-bower": "0.0.13",
     "gulp-git": "^2.3.0",
+    "polymer-analyzer": "^2.0.2",
     "run-sequence": "^1.2.2"
   }
 }

@@ -1,6 +1,5 @@
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
@@ -19,11 +18,28 @@
         padding-left: 28px;
         letter-spacing: 0.02em;
       }
+
+      .horizontal {
+        display: flex;
+        flex-direction: row;
+      }
+
       div[main-title] {
         font-size: 2.5em;
         margin-top: auto;
       }
+      .right {
+        position: relative;
+        height: 100%;
+        display: flex;
+        width: 100%;
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+      }
     </style>
+
     <app-header-layout>
       <app-header style="height: 256px;" condenses fixed effects="resize-title" slot="header">
         <app-toolbar>
@@ -35,12 +51,29 @@
         </app-toolbar>
       </app-header>
 
-      <slot></slot>
+      <div class="horizontal">
+        <div class="left" style="min-width: 256px;">
+          <slot></slot>
+        </div>
+        <div class="right">
+          <iframe id="frame" frameBorder="0" height="100%" width="100%"></iframe>
+        </div>
+      </div>
+
     </app-header-layout>
   </template>
   <script>
     class ContentWrapper extends Polymer.Element {
       static get is() { return 'content-wrapper'; }
+      ready() {
+        super.ready();
+        this.addEventListener('iframe-changed', function(event) {
+          this.$.frame.src = event.detail.location;
+        });
+        this.$.frame.addEventListener('load', function() {
+          this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+        });
+      }
     }
 
     // Associate the new class with an element name
