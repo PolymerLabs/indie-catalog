@@ -48,7 +48,6 @@ gulp.task('checkout', function() {
       // Step 3. Read the main field from bower.
       let bowerjson = JSON.parse(fs.readFileSync(path + '/bower.json'));
       let inputs = [].concat(bowerjson.main);
-      console.log(inputs);
 
       // Step 4. bower install the element's dependencies.]
       // TODO: move this to its own task.
@@ -72,13 +71,7 @@ gulp.task('checkout', function() {
           console.log('got nothing to analyze');
           // TODO: fall back to package analysis
         } else {
-          //let paths = inputs.map(x => './' + x);
-          let paths = inputs;
-
-          console.log(analyzerRoot);
-          console.log(paths);
-
-          analyzer.analyze(paths).then(function(analysis) {
+          analyzer.analyze(inputs).then(function(analysis) {
             var blob = JSON.stringify(generateAnalysis(analysis, analyzerRoot));
             fs.writeFileSync(path + '/descriptor.json', blob);
 
