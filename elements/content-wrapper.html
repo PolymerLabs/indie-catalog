@@ -32,7 +32,6 @@
       .right {
         position: relative;
         height: 100%;
-        display: flex;
         width: 100%;
       }
       iframe {
@@ -71,6 +70,7 @@
           <slot></slot>
         </div>
         <div class="right">
+          <p id="help">💡 Choose a docs/demo from the menu to begin. </p>
           <iframe id="frame" frameBorder="0" height="100%" width="100%"></iframe>
         </div>
       </div>
@@ -88,6 +88,7 @@
         super.ready();
         this.addEventListener('iframe-changed', function(event) {
           this.$.frame.src = event.detail.location;
+          this.$.help.hidden = true;
         });
         this.$.frame.addEventListener('load', function() {
           try {
