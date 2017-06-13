@@ -1,0 +1,136 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../marked-element/marked-element.html">
+<link rel="import" href="iron-doc-viewer-styles.html">
+
+<!--
+Renders documentation describing a specific property of an element, mixin,
+class, etc.
+-->
+
+<dom-module id="iron-doc-property">
+  <template>
+    <style include="iron-doc-viewer-styles"></style>
+    <style>
+      #polymer {
+        margin-left: 12px;
+      }
+
+      #polymer > * {
+        background-color: #efefef;
+        color: #e91e63;
+        padding: 1px 6px;
+        margin-left: 8px;
+        border-radius: 8px;
+      }
+    </style>
+
+    <div id="signature">
+      <a id$="[[anchorId]]" href$="#[[anchorId]]" class="name deeplink">[[descriptor.name]]</a>
+      <code id="type" hidden$="[[!descriptor.type]]">: [[descriptor.type]]</code>
+      <code id="default" hidden$="[[!descriptor.defaultValue]]">= [[descriptor.defaultValue]]</code>
+
+      <span id="polymer">
+        <code hidden$="[[!descriptor.metadata.polymer.notify]]">notifies</code>
+        <code hidden$="[[!descriptor.metadata.polymer.readOnly]]">readOnly</code>
+        <code hidden$="[[!descriptor.metadata.polymer.reflectToAttribute]]">reflectToAttribute</code>
+      </span>
+    </div>
+
+    <div id="details">
+      <div id="meta" hidden$="[[_computeHideMeta(descriptor)]]">
+
+        <span class="annotation">[[_getAnnotation(descriptor)]]</span>
+      </div>
+      <marked-element sanitize id="desc" markdown="[[descriptor.description]]" hidden$="[[!descriptor.description]]">
+        <div slot="markdown-html" class="markdown-html"></div>
+      </marked-element>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'iron-doc-property',
+
+        properties: {
+          descriptor: {
+            type:     Object,
+            observer: '_descriptorChanged',
+          },
+
+          function: {
+            type: Boolean,
+            reflectToAttribute: true,
+          },
+
+          /**
+           * Unique anchor ID for deep-linking.
+           */
+          anchorId: {
+            type: String,
+            reflectToAttribute: true,
+          },
+
+          _paramText: String,
+        },
+
+        ready: function() {
+          this._isReady = true;
+        },
+
+        _descriptorChanged: function() {
+          this.toggleAttribute('configuration', this.descriptor.configuration);
+          this.toggleAttribute('function',      this.descriptor.function);
+          this._paramText = (this.descriptor.params || []).map(function(param) {
+            return param.name;
+          }).join(', ');
+        },
+
+        // hidden if no type and no defaults
+        _computeHideMeta: function(descriptor) {
+          return descriptor.type === undefined &&  descriptor.default === undefined;
+        },
+
+        // hidden if no params, and no return value
+        _computeHideParams: function(descriptor) {
+          return (!descriptor.params || descriptor.params.length === 0);
+        },
+
+        _computeHideDefault: function(def) {
+          return def === undefined;
+        },
+
+        _computeDefaultDisplay: function(def) {
+          if (def === '')
+            return "''";
+          return def;
+        },
+
+        _getAnnotation: function(descriptor) {
+          var annotations = [];
+
+          if (descriptor['default'] !== undefined) {
+            annotations.push('Default: ' + descriptor['default']);
+          }
+          if (descriptor.readOnly) {
+            annotations.push('readOnly');
+          }
+          if (descriptor.notify) {
+            annotations.push('notifies');
+          }
+          return annotations.join(' – ');
+        }
+      });
+    })();
+  </script>
+</dom-module>

@@ -1,6 +1,6 @@
 {
   "name": "iron-icons",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A set of icons for use with iron-icon",
   "authors": [
     "The Polymer Authors"
@@ -56,11 +56,11 @@
   "resolutions": {
     "webcomponentsjs": "^1.0.0"
   },
-  "_release": "2.0.0",
+  "_release": "2.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.0.0",
-    "commit": "caca3514695136380ac98e3677f1c6ba38d9f82d"
+    "tag": "v2.0.1",
+    "commit": "8d999f711c42366c7f81247eddbd11882b473533"
   },
   "_source": "https://github.com/PolymerElements/iron-icons.git",
   "_target": "1 - 2",

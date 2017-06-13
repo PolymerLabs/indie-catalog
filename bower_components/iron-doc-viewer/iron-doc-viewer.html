@@ -1,0 +1,297 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../iron-location/iron-location.html">
+<link rel="import" href="../marked-element/marked-element.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../prism-element/prism-highlighter.html">
+<link rel="import" href="../prism-element/prism-theme-default.html">
+
+<link rel="import" href="iron-doc-behavior.html">
+<link rel="import" href="iron-doc-class.html">
+<link rel="import" href="iron-doc-element.html">
+<link rel="import" href="iron-doc-mixin.html">
+<link rel="import" href="iron-doc-namespace.html">
+
+<!--
+`iron-doc-viewer` renders documentation about elements, mixins, classes, and
+more from a JSON descriptor output by
+[Polymer Analyzer](https://github.com/Polymer/polymer-analyzer).
+
+Provide the descriptor JSON as a data binding to `descriptor`:
+
+    <iron-doc-viewer descriptor="[[descriptor]]"></iron-doc-viewer>
+
+`iron-doc-viewer` will initially display all items contained in the given
+descriptor (e.g. elements, mixins, classes). `path` is used to display detail
+about specific items within the descriptor (e.g. "/elements/my-component"), and
+by default is bound to the current `window.location` path.
+
+### Styling
+
+Most users should include the default theme alongside this element:
+
+    <link rel="import" href="/components/iron-doc-viewer/default-theme.html">
+
+    <custom-style>
+      <style is="custom-style" include="iron-doc-viewer-default-theme"></style>
+    </custom-style>
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--iron-doc-font-code` | Mixin applied to code snippets. | `{}`
+`--iron-doc-font-body` | Mixin applied to non-code text. | `{}`
+-->
+
+<dom-module id="iron-doc-viewer">
+  <template>
+    <style include="iron-doc-viewer-styles prism-theme-default"></style>
+
+    <iron-location path="{{_urlPath}}" hash="{{_urlHash}}"></iron-location>
+
+    <template is="dom-if" if="[[_equal(_descriptorType,'namespaces')]]" restamp>
+      <iron-doc-namespace
+          descriptor="[[_currentDescriptor]]"
+          fragment-prefix="[[_fragmentPrefix]]"
+          title="{{title}}"
+          scroll-to="[[scrollTo]]"
+          base-href="[[baseHref]]">
+      </iron-doc-namespace>
+    </template>
+
+    <template is="dom-if" if="[[_equal(_descriptorType,'elements')]]" restamp>
+      <iron-doc-element
+          descriptor="[[_currentDescriptor]]"
+          fragment-prefix="[[_fragmentPrefix]]"
+          title="{{title}}"
+          scroll-to="[[scrollTo]]"
+          base-href="[[baseHref]]">
+      </iron-doc-element>
+    </template>
+
+    <template is="dom-if" if="[[_equal(_descriptorType,'mixins')]]" restamp>
+      <iron-doc-mixin
+          descriptor="[[_currentDescriptor]]"
+          fragment-prefix="[[_fragmentPrefix]]"
+          title="{{title}}"
+          scroll-to="[[scrollTo]]"
+          base-href="[[baseHref]]">
+      </iron-doc-mixin>
+    </template>
+
+    <template is="dom-if" if="[[_equal(_descriptorType,'behaviors')]]" restamp>
+      <iron-doc-behavior
+          descriptor="[[_currentDescriptor]]"
+          fragment-prefix="[[_fragmentPrefix]]"
+          title="{{title}}"
+          scroll-to="[[scrollTo]]"
+          base-href="[[baseHref]]">
+      </iron-doc-behavior>
+    </template>
+
+    <template is="dom-if" if="[[_equal(_descriptorType,'classes')]]" restamp>
+      <iron-doc-class
+          descriptor="[[_currentDescriptor]]"
+          fragment-prefix="[[_fragmentPrefix]]"
+          title="{{title}}"
+          scroll-to="[[scrollTo]]"
+          base-href="[[baseHref]]">
+      </iron-doc-class>
+    </template>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'iron-doc-viewer',
+
+        properties: {
+          /**
+           * The [Polymer Analyzer](https://github.com/Polymer/polymer-analyzer)-generated
+           * element descriptor to display details for.
+           */
+          descriptor: {
+            type: Object,
+          },
+
+          /**
+           * The base href where this doc viewer is located.
+           */
+          baseHref: {
+            type: String,
+            value: '#'
+          },
+
+          /**
+           * Path to the item in the descriptor to display.
+           *
+           * Examples:
+           *   - `/` for the root namespace
+           *   - `/elements/paper-button`
+           *   - `/mixins/paper-button-behavior`
+           *
+           * Defaults to the current `window.location` path.
+           *
+           * If `baseHref` is set, it will be trimmed from the prefix of this
+           * `path`.
+           */
+          path: {
+            type: String,
+            value: null
+          },
+
+          /**
+           * Instead of displaying items relative to the top level of
+           * `descriptor`, start from this namespace.
+           */
+          rootNamespace: {
+            type: String,
+          },
+
+          /**
+           * Display title for the currently selected item.
+           */
+          title: {
+            type: String,
+            notify: true
+          },
+
+          _descriptorType: String,
+
+          _urlPath: String,
+
+          _urlHash: String,
+
+          _currentDescriptor: Object,
+
+          _fragmentPrefix: String,
+
+          _scrollTo: String
+        },
+
+        observers: [
+          '_routingChanged(baseHref, _urlPath, _urlHash)',
+          '_dataChanged(descriptor, path)',
+        ],
+
+        _equal: function(a, b) {
+          return a == b;
+        },
+
+        _routingChanged: function(baseHref, urlPath, urlHash) {
+          if (baseHref.indexOf('#') === 0) {
+            // URL fragment routing.
+            var parts = (urlHash || '').split('#');
+            this.path = parts[0];
+            this._scrollTo = parts[1];
+            this._fragmentPrefix = parts[0] + '#';
+
+          } else {
+            // URL path routing.
+            if (baseHref && urlPath && urlPath.indexOf(baseHref) === 0) {
+              this.path = urlPath.substring(baseHref.length);
+            } else {
+              this.path = urlPath;
+            }
+            this._scrollTo = urlHash;
+          }
+        },
+
+        _dataChanged: function(descriptor, path) {
+          if (!this.descriptor) {
+            this._descriptorType = null;
+            return;
+          }
+
+          var descriptorType, name;
+          if (path) {
+            if (this.baseHref && path.indexOf(this.baseHref) >= 0) {
+              path = path.substring(this.baseHref.length);
+            }
+            var parts = path.split('/');
+            if (parts.length > 1) {
+              [, descriptorType, name] = parts;
+            }
+          }
+
+          if (!descriptorType) {
+            // If we don't have a route, display either the top-level namespace
+            // or the rootNamespace if set.
+            this._descriptorType = 'namespaces';
+            if (this.rootNamespace && descriptor.namespaces) {
+              var matches = descriptor.namespaces.filter((n) => n.name === this.rootNamespace);
+              if (matches && matches.length > 0) {
+                this._currentDescriptor = matches[0];
+              }
+              return;
+            }
+            this._currentDescriptor = descriptor;
+            return;
+          }
+
+          var namespace = getNamespace(this.descriptor, name) || this.descriptor;
+          if (namespace == null) {
+            // 404?
+            return;
+          }
+          this._descriptorType = descriptorType;
+          if (descriptorType === 'namespaces') {
+            this._currentDescriptor = namespace.namespaces &&
+                namespace.namespaces.filter((n) => n.name === name)[0];
+          } else if (descriptorType === 'elements') {
+            this._currentDescriptor = namespace.elements &&
+                namespace.elements.filter((e) => e.name === name ||  e.tagname === name)[0];
+          } else if (descriptorType === 'classes') {
+            this._currentDescriptor = namespace.classes &&
+                namespace.classes.filter((e) => (e.name || e.tagname) === name)[0];
+          } else if (descriptorType === 'mixins') {
+            this._currentDescriptor = namespace.mixins &&
+                namespace.mixins.filter((m) => m.name === name)[0];
+          } else if (descriptorType === 'behaviors') {
+            var behaviors =
+                ((namespace.metadata || {}).polymer || {}).behaviors;
+            this._currentDescriptor = behaviors &&
+                behaviors.filter((b) => b.name === name)[0];
+          } else if (descriptorType === 'functions') {
+            this._currentDescriptor = namespace.functions &&
+                namespace.functions.filter((f) => f.name === name)[0];
+          }
+        },
+      });
+
+      /**
+       * Walks through the tree of namespaces to find the namespace containing
+       * `name`.
+       */
+      function getNamespace(descriptor, name) {
+        var parts = name.split('.');
+        if (parts.length < 2) {
+          return undefined;
+        }
+        parts = parts.slice(0, parts.length - 1);
+        var namespace = descriptor;
+
+        for (var part of parts) {
+          if (!namespace.namespaces) {
+            return undefined;
+          }
+          var matches = namespace.namespaces.filter((n) => n.name === part);
+          if (matches.length === 0) {
+            return undefined;
+          }
+          namespace = matches[0];
+        }
+        return namespace;
+      }
+    })();
+  </script>
+</dom-module>

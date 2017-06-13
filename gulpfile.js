@@ -37,7 +37,7 @@ gulp.task('checkout', function() {
     if (!packages[repo].git) {
       continue;
     }
-    
+
     // Step 1. Clone the element.
     git.clone(packages[repo].git, {args: '--depth 1 -- ' + path}, function (err) {
       if (err) {
@@ -89,14 +89,18 @@ gulp.task('checkout', function() {
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>${repoName}</title>
   <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-  <link rel="import" href="/bower_components/iron-doc-viewer/iron-doc-viewer-2.html">
+  <link rel="import" href="/bower_components/iron-doc-viewer/iron-doc-viewer.html">
+  <link rel="import" href="/bower_components/iron-doc-viewer/iron-doc-viewer-default-theme.html">
   <link rel="import" href="/bower_components/polymer/lib/elements/dom-bind.html">
+  <custom-style>
+    <style is="custom-style" include="iron-doc-viewer-default-theme"></style>
+  </custom-style>
 </head>
 <body>
   <dom-bind>
     <template>
-      <iron-ajax auto url="./analyzer.json" last-response="{{response}}" handle-as="json"></iron-ajax>
-      <iron-doc-viewer-2 descriptor="[[response]]"></iron-doc-viewer-2>
+      <iron-ajax auto url="./descriptor.json" last-response="{{response}}" handle-as="json"></iron-ajax>
+      <iron-doc-viewer descriptor="[[response]]"></iron-doc-viewer>
     </template>
   </dom-bind>
 </body>

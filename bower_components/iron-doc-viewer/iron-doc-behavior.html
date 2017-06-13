@@ -1,0 +1,90 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../marked-element/marked-element.html">
+<link rel="import" href="../prism-element/prism-highlighter.html">
+<link rel="import" href="../prism-element/prism-theme-default.html">
+
+<link rel="import" href="iron-doc-function.html">
+<link rel="import" href="iron-doc-property.html">
+<link rel="import" href="iron-doc-viewer-behavior.html">
+<link rel="import" href="iron-doc-viewer-styles.html">
+
+<!--
+`iron-doc-behavior` renders documentation about a Polymer 1.x behavior from a
+JSON descriptor output by
+[Polymer Analyzer](https://github.com/Polymer/polymer-analyzer).
+-->
+
+<dom-module id="iron-doc-behavior">
+  <template>
+    <style include="iron-doc-viewer-styles prism-theme-default"></style>
+
+    <prism-highlighter></prism-highlighter>
+
+    <h1>Behavior [[descriptor.name]]</h1>
+    <p hidden$="[[!descriptor.summary]]">[[descriptor.summary]]</p>
+
+    <div class="metadata">Path: <span class="code">[[descriptor.path]]</span></div>
+
+    <div class="metadata" hidden$="[[!descriptor.mixins]]">Mixins: &#8203;
+      <template is="dom-repeat" items="[[descriptor.mixins]]" sort="_compareDescriptors">
+        <a class="name deeplink mixin" href$="[[baseHref]]/mixins/[[item]]">[[item]]</a>
+      </template>
+    </div>
+
+    <section id="description" class="card" hidden$="[[!descriptor.description]]">
+      <marked-element sanitize markdown="[[descriptor.description]]">
+        <div slot="markdown-html" class="markdown-html"></div>
+      </marked-element>
+    </section>
+
+    <nav id="api">
+      <header>API Reference</header>
+      <label class="checkbox"><input type="checkbox" checked="{{_showInherited::change}}">Show Inherited</label>
+      <label class="checkbox"><input type="checkbox" checked="{{_showProtected::change}}">Show Protected</label>
+    </nav>
+
+    <section anchor-id$="[[_formatAnchor(fragmentPrefix,'properties')]]" class="card" hidden$="[[_noneToShow(_showProtected,_showInherited,descriptor,'properties')]]">
+      <header><a href$="#[[_formatAnchor(fragmentPrefix,'properties')]]" class="deeplink">Properties</a></header>
+      <div hidden$="[[!descriptor.properties.length]]">
+        <template is="dom-repeat" items="[[_filterMembers(descriptor.properties,_showProtected,_showInherited)]]" sort="_compareDescriptors">
+          <iron-doc-property anchor-id$="[[_formatAnchor(fragmentPrefix,'property',item.name)]]" descriptor="[[item]]"></iron-doc-property>
+        </template>
+      </div>
+    </section>
+
+    <section anchor-id$="[[_formatAnchor(fragmentPrefix,'methods')]]" class="card"  hidden$="[[_noneToShow(_showProtected,_showInherited,descriptor,'methods')]]">
+      <header><a href$="#[[_formatAnchor(fragmentPrefix,'methods')]]" class="deeplink">Methods</a></header>
+      <template is="dom-repeat" items="[[_filterMembers(descriptor.methods,_showProtected,_showInherited)]]" sort="_compareDescriptors">
+        <iron-doc-function anchor-id$="[[_formatAnchor(fragmentPrefix,'method',item.name)]]" descriptor="[[item]]"></iron-doc-function>
+      </template>
+    </section>
+
+    <section anchor-id$="[[_formatAnchor(fragmentPrefix,'events')]]" class="card" hidden$="[[_noneToShow(_showProtected,_showInherited,descriptor,'events')]]">
+      <header><a href$="#[[_formatAnchor(fragmentPrefix,'events')]]" class="deeplink">Events</a></header>
+      <template is="dom-repeat" items="[[_filterMembers(descriptor.events,_showProtected,_showInherited)]]" sort="_compareDescriptors">
+        <iron-doc-property anchor-id$="[[_formatAnchor(fragmentPrefix,'event',item.name)]]" descriptor="[[item]]"></iron-doc-property>
+      </template>
+    </section>
+
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'iron-doc-behavior',
+
+        behaviors: [Polymer.IronDocViewerBehavior],
+      });
+    })();
+  </script>
+</dom-module>
