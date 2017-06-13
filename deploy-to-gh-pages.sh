@@ -18,17 +18,20 @@ git clone https://github.com/$org/$repo.git --single-branch
 pushd $repo >/dev/null
 git checkout --orphan gh-pages
 
-# remove all content
-git rm -rf -q .
+# remove the .gitignore since we're going to be pushing deps
+git rm -rf ./.gitignore
+git rm -rf ./node_modules
+git rm -rf ./dist
+git rm -rf ./bower_components
 
 # use bower to install runtime deployment
-bower cache clean $repo # ensure we're getting the latest from the desired branch.
+bower cache clean # ensure we're getting the latest from the desired branch.
 
 # copy the bower.json from master here
-git show ${branch}:bower.json > bower.json
+# git show ${branch}:bower.json > bower.json
 
 # install the bower deps and also this repo so we can copy the demo
-npm install && bower install && gulp
+bower install && gulp
 
 # send it all to github
 git add -A .
