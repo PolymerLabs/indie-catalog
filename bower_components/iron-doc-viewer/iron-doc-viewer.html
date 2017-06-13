@@ -38,10 +38,10 @@ by default is bound to the current `window.location` path.
 
 Most users should include the default theme alongside this element:
 
-    <link rel="import" href="/components/iron-doc-viewer/default-theme.html">
+    <link rel="import" href="/components/iron-doc-viewer/default.html">
 
     <custom-style>
-      <style is="custom-style" include="iron-doc-viewer-default-theme"></style>
+      <style is="custom-style" include="iron-doc-default-theme"></style>
     </custom-style>
 
 The following custom properties and mixins are available for styling:
@@ -63,7 +63,7 @@ Custom property | Description | Default
           descriptor="[[_currentDescriptor]]"
           fragment-prefix="[[_fragmentPrefix]]"
           title="{{title}}"
-          scroll-to="[[scrollTo]]"
+          scroll-to="[[_scrollTo]]"
           base-href="[[baseHref]]">
       </iron-doc-namespace>
     </template>
@@ -73,7 +73,7 @@ Custom property | Description | Default
           descriptor="[[_currentDescriptor]]"
           fragment-prefix="[[_fragmentPrefix]]"
           title="{{title}}"
-          scroll-to="[[scrollTo]]"
+          scroll-to="[[_scrollTo]]"
           base-href="[[baseHref]]">
       </iron-doc-element>
     </template>
@@ -83,7 +83,7 @@ Custom property | Description | Default
           descriptor="[[_currentDescriptor]]"
           fragment-prefix="[[_fragmentPrefix]]"
           title="{{title}}"
-          scroll-to="[[scrollTo]]"
+          scroll-to="[[_scrollTo]]"
           base-href="[[baseHref]]">
       </iron-doc-mixin>
     </template>
@@ -93,7 +93,7 @@ Custom property | Description | Default
           descriptor="[[_currentDescriptor]]"
           fragment-prefix="[[_fragmentPrefix]]"
           title="{{title}}"
-          scroll-to="[[scrollTo]]"
+          scroll-to="[[_scrollTo]]"
           base-href="[[baseHref]]">
       </iron-doc-behavior>
     </template>
@@ -103,7 +103,7 @@ Custom property | Description | Default
           descriptor="[[_currentDescriptor]]"
           fragment-prefix="[[_fragmentPrefix]]"
           title="{{title}}"
-          scroll-to="[[scrollTo]]"
+          scroll-to="[[_scrollTo]]"
           base-href="[[baseHref]]">
       </iron-doc-class>
     </template>
@@ -146,6 +146,7 @@ Custom property | Description | Default
            */
           path: {
             type: String,
+            notify: true,
             value: null
           },
 

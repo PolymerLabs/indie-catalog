@@ -131,7 +131,7 @@ JSON descriptor output by
         },
 
         _computeTitle: function(descriptor) {
-          return descriptor && 'Namespace ' + descriptor.name;
+          return descriptor && 'Namespace ' + (descriptor.name || 'global');
         }
       });
     })();

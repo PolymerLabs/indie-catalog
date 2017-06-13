@@ -107,12 +107,23 @@
           if (hash.indexOf('#') === 0) {
             hash = hash.substring(1);
           }
-          // Ensure all dom-repeats have rendered.
-          Polymer.dom.flush();
-          var elementToFocus = this.$$('[anchor-id="' + this.fragmentPrefix + hash + '"]');
-          if (elementToFocus) {
-            elementToFocus.scrollIntoView();
-          }
+          // Ensure all dom-repeats have rendered. Note that
+          // `Polymer.dom.flush()` is not enough here. We'll find the element,
+          // but it won't scroll into view. Maybe it's in the DOM but doesn't
+          // know where it is on screen yet?
+          this.async(function() {
+            var anchor = this.fragmentPrefix + hash;
+            var element = this.$$('[anchor-id="' + anchor + '"]');
+            if (element) {
+              element.scrollIntoView();
+              // Highlight the section for a moment so we can tell where
+              // exactly we were deep-linked.
+              element.classList.add('scrolled');
+              this.async(function() {
+                element.classList.remove('scrolled');
+              }, 1000);
+            }
+          });
         }
       },
 

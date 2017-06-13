@@ -90,10 +90,10 @@ gulp.task('checkout', function() {
   <title>${repoName}</title>
   <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
   <link rel="import" href="../../bower_components/iron-doc-viewer/iron-doc-viewer.html">
-  <link rel="import" href="../../bower_components/iron-doc-viewer/iron-doc-viewer-default-theme.html">
+  <link rel="import" href="../../bower_components/iron-doc-viewer/default-theme.html">
   <link rel="import" href="../../bower_components/polymer/lib/elements/dom-bind.html">
   <custom-style>
-    <style is="custom-style" include="iron-doc-viewer-default-theme"></style>
+    <style is="custom-style" include="iron-doc-default-theme"></style>
   </custom-style>
 </head>
 <body>

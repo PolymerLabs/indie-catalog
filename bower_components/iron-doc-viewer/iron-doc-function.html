@@ -28,7 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       --><span class="return" hidden$="[[!descriptor.return]]">: <span class="type code">[[descriptor.return.type]]</span></span>
     </div>
 
-    <ul id="params" hidden$="[[_empty(descriptor.params)]]">
+    <ul id="params" hidden$="[[!_showParamList]]">
       <template is="dom-repeat"
                 items="[[descriptor.params]]">
         <li>
@@ -37,16 +37,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </li>
       </template>
     </ul>
-
-    <div id="details">
-      <div id="meta" hidden$="[[_computeHideMeta(descriptor)]]">
-        <span id="type" class="type">[[descriptor.type]]</span>
-        <span class="annotation">[[_getAnnotation(descriptor)]]</span>
-      </div>
-      <marked-element sanitize id="desc" markdown="[[descriptor.description]]" hidden$="[[!descriptor.description]]">
-        <div slot="markdown-html" class="markdown-html"></div>
-      </marked-element>
-    </div>
   </template>
 
   <script>
@@ -58,10 +48,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         is: 'iron-doc-function',
 
         properties: {
+          anchorId: String,
+
           _paramText: {
+            type: String,
             computed: '_computeParamText(descriptor)',
           },
-          anchorId: String
+
+          _showParamList: {
+            type: Boolean,
+            computed: '_computeShowParamList(descriptor)'
+          }
         },
 
         _computeParamText: function(descriptor) {
@@ -74,43 +71,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }).join(', ');
         },
 
-        // hidden if no type and no defaults
-        _computeHideMeta: function(descriptor) {
-          return descriptor.type === undefined &&  descriptor.default === undefined;
-        },
-
-        // hidden if no params, and no return value
-        _computeHideParams: function(descriptor) {
-          return (!descriptor.params || descriptor.params.length === 0);
-        },
-
-        _computeHideDefault: function(def) {
-          return def === undefined;
-        },
-
-        _computeDefaultDisplay: function(def) {
-          if (def === '')
-            return "''";
-          return def;
-        },
-
-        _getAnnotation: function(descriptor) {
-          var annotations = [];
-
-          if (descriptor['default'] !== undefined) {
-            annotations.push('Default: ' + descriptor['default']);
+        _computeShowParamList: function(descriptor) {
+          if (descriptor && descriptor.params) {
+            for (var i = 0; i < descriptor.params.length; i++) {
+              if (descriptor.params[i].description) {
+                return true;
+              }
+            }
           }
-          if (descriptor.readOnly) {
-            annotations.push('readOnly');
-          }
-          if (descriptor.notify) {
-            annotations.push('notifies');
-          }
-          return annotations.join(' – ');
-        },
-
-        _empty: function(items) {
-          return !items || !items.length;
+          return false;
         }
       });
     })();
