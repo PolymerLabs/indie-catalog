@@ -6,7 +6,7 @@
 # dependencies to gh-pages.
 
 # Run in a clean directory passing in a GitHub org and repo name
-org="notwaldorf"
+org="polymerelements"
 repo="indie-catalog"
 branch="master" # default to master when branch isn't specified
 
