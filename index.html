@@ -38,8 +38,8 @@
       <dom-repeat>
         <template>
           <list-item
-              title="[[item.title]]"
-              subtitle=[[item.subtitle]]
+              name="[[item.name]]"
+              action=[[item.action]]
               demo="[[item.demo]]"
               docs="[[item.docs]]">
           </list-item>
@@ -63,26 +63,29 @@
           for (let el in packages) {
             // If there's a hardcoded demo or docs link, use that
             fakeData.push({
-              title: el,
-              subtitle: packages[el].description,
+              name: el,
+              action: packages[el].description,
               demo: packages[el].demo ? packages[el].demo : `dist/${el}/bower_components/${el}/demo/index.html`,
               docs: packages[el].docs ? packages[el].docs : `dist/${el}/docs.html`
             });
           }
           domrepeat.items = fakeData;
+
+          if (url.query && url.hash) {
+            console.log(url.query, url.hash);
+            setTimeout(function() {
+              var item = document.querySelector(`list-item[name=${url.query}]`);
+              if (item) {
+                item.doClick(url.hash === 'docs');
+              }
+            }, 1);
+          }
         },
         function(error) {
           console.log('oops');
         }
       );
-      window.addEventListener('WebComponentsReady', function() {
-        if (url.query && url.hash) {
-          var item = document.querySelector(`list-item[title=${url.query}]`);
-          if (item) {
-            item.doClick(url.hash === 'docs');
-          }
-        }
-      });
+
       window.addEventListener('item-clicked', function(event) {
         url.query = event.detail.name;
         url.hash = event.detail.type;

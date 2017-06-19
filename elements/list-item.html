@@ -40,19 +40,22 @@
       }
     </style>
     <div class="horizontal">
-      [[title]]
+      [[name]]
       <a href$="[[docs]]" target="_blank" on-click="_onClick" id="docs">📖</a>
       <a href$="[[demo]]" target="_blank" on-click="_onClick" id="demo">🎥</a>
     </div>
-    <span>[[subtitle]]</span>
+    <span>[[action]]</span>
   </template>
   <script>
     class ListItem extends Polymer.Element {
       static get is() { return 'list-item'; }
       static get properties() {
         return {
-          title: String,
-          subtitle: String,
+          name: {
+            type: String,
+            reflectToAttribute: true
+          },
+          action: String,
           demo: String,
           docs: String
         }
@@ -76,7 +79,7 @@
           event.detail = {
               url: e.target.getAttribute('href'),
               type: e.target.id,
-              name: this.title};
+              name: this.name};
           this.dispatchEvent(event);
         }
       }
