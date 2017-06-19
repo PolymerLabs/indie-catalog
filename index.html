@@ -7,12 +7,14 @@
 
     <title>Indie catalog</title>
     <meta name="description" content="Indie elements catalog">
+
     <link rel="import" href="bower_components/polymer/polymer-element.html">
     <link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
     <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
-
+    <link rel="import" href="bower_components/iron-location/iron-location.html">
     <link rel="import" href="elements/content-wrapper.html">
     <link rel="import" href="elements/list-item.html">
+    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
     <style>
       html {
         --header-background: #fbbc05;
@@ -31,6 +33,7 @@
     </style>
   </head>
   <body>
+    <iron-location id="url" path="null"></iron-location>
     <content-wrapper>
       <dom-repeat>
         <template>
@@ -42,7 +45,6 @@
           </list-item>
         </template>
       </dom-repeat>
-
     </content-wrapper>
 
     <noscript>
@@ -58,7 +60,7 @@
       ajax.generateRequest().completes.then(
         function(event) {
           let packages = event.response.packages;
-          for (var el in packages) {
+          for (let el in packages) {
             // If there's a hardcoded demo or docs link, use that
             fakeData.push({
               title: el,
@@ -73,6 +75,18 @@
           console.log('oops');
         }
       );
+      window.addEventListener('WebComponentsReady', function() {
+        if (url.query && url.hash) {
+          var item = document.querySelector(`list-item[title=${url.query}]`);
+          if (item) {
+            item.doClick(url.hash === 'docs');
+          }
+        }
+      });
+      window.addEventListener('item-clicked', function(event) {
+        url.query = event.detail.name;
+        url.hash = event.detail.type;
+      });
     </script>
   </body>
 </html>

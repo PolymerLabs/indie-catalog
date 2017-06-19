@@ -41,8 +41,8 @@
     </style>
     <div class="horizontal">
       [[title]]
-      <a href$="[[docs]]" target="_blank" on-click="_onClick">📖</a>
-      <a href$="[[demo]]" target="_blank" on-click="_onClick">🎥</a>
+      <a href$="[[docs]]" target="_blank" on-click="_onClick" id="docs">📖</a>
+      <a href$="[[demo]]" target="_blank" on-click="_onClick" id="demo">🎥</a>
     </div>
     <span>[[subtitle]]</span>
   </template>
@@ -57,15 +57,26 @@
           docs: String
         }
       }
+      doClick(docs) {
+        if (docs) {
+          this.$.docs.click();
+        } else {
+          this.$.demo.click();
+        }
+      }
+
       _onClick(e) {
         if (!this.parentElement.small) {
           e.preventDefault();
-          var event = new Event('iframe-changed', {
+          var event = new Event('item-clicked', {
             bubbles: true,
             cancelable: false,
             composed: true
           });
-          event.detail = {location: e.target.getAttribute('href')};
+          event.detail = {
+              url: e.target.getAttribute('href'),
+              type: e.target.id,
+              name: this.title};
           this.dispatchEvent(event);
         }
       }

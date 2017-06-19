@@ -55,6 +55,7 @@
         }
       }
     </style>
+
     <iron-media-query query="(max-width: 767px)" query-matches="{{small}}"></iron-media-query>
     <app-header-layout>
       <app-header style="height: 256px;" condenses fixed effects="resize-title" slot="header">
@@ -88,11 +89,13 @@
       }
       ready() {
         super.ready();
-        this.addEventListener('iframe-changed', function(event) {
-          this.$.frame.src = event.detail.location;
+
+        this.addEventListener('item-clicked', function(event) {
+          this.$.frame.src = event.detail.url;
           this.$.help.hidden = true;
           this.$.frame.hidden = false;
         });
+
         this.$.frame.addEventListener('load', function() {
           try {
             this.style.height = this.contentWindow.document.body.scrollHeight + 'px';

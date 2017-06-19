@@ -13,6 +13,7 @@
     "app-layout": "PolymerElements/app-layout#^2.0.0",
     "iron-ajax": "polymerelements/iron-ajax#^2.0.0",
     "iron-media-query": "PolymerElements/iron-media-query#^2.0.0",
-    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^3.0.0-rc.2"
+    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^3.0.0-rc.2",
+    "iron-location": "polymerelements/iron-location#^2.0.1"
   }
 }
