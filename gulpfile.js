@@ -91,7 +91,9 @@ gulp.task('checkout', function() {
   <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
   <link rel="import" href="../../bower_components/iron-doc-viewer/iron-doc-viewer.html">
   <link rel="import" href="../../bower_components/iron-doc-viewer/default-theme.html">
+  <link rel="import" href="../../bower_components/polymer/lib/elements/custom-style.html">
   <link rel="import" href="../../bower_components/polymer/lib/elements/dom-bind.html">
+  <script src="../../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
   <custom-style>
     <style is="custom-style" include="iron-doc-default-theme"></style>
   </custom-style>

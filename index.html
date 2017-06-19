@@ -34,6 +34,7 @@
   </head>
   <body>
     <iron-location id="url" path="null"></iron-location>
+    <iron-ajax auto url="catalog.json" handle-as="json" id="ajax"></iron-ajax>
     <content-wrapper>
       <dom-repeat>
         <template>
@@ -52,44 +53,44 @@
     </noscript>
 
     <script>
-      let fakeData = [];
-      const domrepeat = document.querySelector('dom-repeat');
-      const ajax = document.createElement('iron-ajax');
-      ajax.url = 'catalog.json';
-
-      ajax.generateRequest().completes.then(
-        function(event) {
-          let packages = event.response.packages;
-          for (let el in packages) {
-            // If there's a hardcoded demo or docs link, use that
-            fakeData.push({
-              name: el,
-              action: packages[el].description,
-              demo: packages[el].demo ? packages[el].demo : `dist/${el}/bower_components/${el}/demo/index.html`,
-              docs: packages[el].docs ? packages[el].docs : `dist/${el}/docs.html`
-            });
-          }
-          domrepeat.items = fakeData;
-
-          if (url.query && url.hash) {
-            console.log(url.query, url.hash);
-            setTimeout(function() {
-              var item = document.querySelector(`list-item[name=${url.query}]`);
-              if (item) {
-                item.doClick(url.hash === 'docs');
-              }
-            }, 1);
-          }
-        },
-        function(error) {
-          console.log('oops');
-        }
-      );
+      window.addEventListener('WebComponentsReady', function() {
+        ajax.addEventListener('response', onResponse);
+        ajax.addEventListener('error', onError);
+      });
 
       window.addEventListener('item-clicked', function(event) {
         url.query = event.detail.name;
         url.hash = event.detail.type;
       });
+
+      function onResponse(event) {
+        let fakeData = [];
+        const domrepeat = document.querySelector('dom-repeat');
+
+        let packages = event.detail.response.packages;
+        for (let el in packages) {
+          // If there's a hardcoded demo or docs link, use that
+          fakeData.push({
+            name: el,
+            action: packages[el].description,
+            demo: packages[el].demo ? packages[el].demo : `dist/${el}/bower_components/${el}/demo/index.html`,
+            docs: packages[el].docs ? packages[el].docs : `dist/${el}/docs.html`
+          });
+        }
+        domrepeat.items = fakeData;
+        
+        if (url.query && url.hash) {
+          setTimeout(function() {
+            var item = document.querySelector(`list-item[name=${url.query}]`);
+            if (item) {
+              item.doClick(url.hash === 'docs');
+            }
+          }, 1);
+        }
+      }
+      function onError(error) {
+        console.log('oops', error);
+      }
     </script>
   </body>
 </html>
