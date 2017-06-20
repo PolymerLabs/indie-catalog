@@ -1,5 +1,10 @@
 # indie-catalog
 
+This repo contains a web components catalog that you can host yourself.
+It's intended for companies that have private elements and would like
+to host them, but those elements can't be published to something like
+webcomponents.org.
+
 ## Step 0. Clone this repo.
 ```
 git clone https://github.com/PolymerLabs/indie-catalog.git
