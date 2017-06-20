@@ -1,6 +1,6 @@
 # indie-catalog
 
-## Configuration
+## Step 1. Configuration
 The elements that you want to appear in the catalog are listed in `catalog.json`:
 
 ```
@@ -14,7 +14,7 @@ The elements that you want to appear in the catalog are listed in `catalog.json`
 
 There's different setups you might be interested in:
 
-### Using an element from git
+#### Using an element from git
 If you want to access the code from a git repo, use the `git` field:
 
 ```
@@ -31,7 +31,7 @@ If you want to access the code from a git repo, use the `git` field:
 This assumes that your demo will be accessible in a `demo` subfolder
 of the git repo (i.e. `paper-input/demo/index.html`).
 
-### Externally hosted the demo and docs
+#### Externally hosted the demo and docs
 If the demo and docs are already hosted in a different place, you can use the
 `docs` and `demo` fields to link directly to them:
 ```
@@ -58,7 +58,7 @@ This relative path should look like `dist/{element-name}/bower_components/{eleme
 }
 ```
 
-### Assumptions
+#### Assumptions
 For either usage, the following extra assumptions are made:
 - running `bower install` in that repo completes successfully
 - your element is written using relative paths for the elements it
