@@ -1,7 +1,7 @@
 # indie-catalog
 
 ## Configuration
-Put the git repos of elements you care about in `catalog.json`:
+The elements that you want to appear in the catalog are listed in `catalog.json`:
 
 ```
 {
@@ -11,6 +11,8 @@ Put the git repos of elements you care about in `catalog.json`:
   }
 }
 ```
+
+There's different setups you might be interested in:
 
 ### Using an element from git
 If you want to access the code from a git repo, use the `git` field:
@@ -29,9 +31,9 @@ If you want to access the code from a git repo, use the `git` field:
 This assumes that your demo will be accessible in a `demo` subfolder
 of the git repo (i.e. `paper-input/demo/index.html`).
 
-### Linking to the demo and docs
+### Externally hosted the demo and docs
 If the demo and docs are already hosted in a different place, you can use the
-`docs` and `demo` fields:
+`docs` and `demo` fields to link directly to them:
 ```
 {
   "packages": {
@@ -45,7 +47,8 @@ If the demo and docs are already hosted in a different place, you can use the
 ```
 
 You can also use these properties this if your element has a demo not
-in a `/demo` subdirectory, by using relative paths:
+in a `/demo` subdirectory, but in some different directory, by using relative paths.
+This relative path should look like `dist/{element-name}/bower_components/{element-name}/...`
 
 ```
 "lazy-image": {
