@@ -1,5 +1,11 @@
 # indie-catalog
 
+## Step 0. Clone this repo.
+```
+git clone https://github.com/PolymerLabs/indie-catalog.git
+cd indie-catalog
+```
+
 ## Step 1. Configuration
 The elements that you want to appear in the catalog are listed in `catalog.json`:
 
@@ -14,7 +20,7 @@ The elements that you want to appear in the catalog are listed in `catalog.json`
 
 There's different setups you might be interested in:
 
-#### Using an element from git
+### Elements with an accessible git repo
 If you want to access the code from a git repo, use the `git` field:
 
 ```
@@ -31,7 +37,7 @@ If you want to access the code from a git repo, use the `git` field:
 This assumes that your demo will be accessible in a `demo` subfolder
 of the git repo (i.e. `paper-input/demo/index.html`).
 
-#### Externally hosted the demo and docs
+### Elements with externally hosted the demo and docs
 If the demo and docs are already hosted in a different place, you can use the
 `docs` and `demo` fields to link directly to them:
 ```
@@ -73,7 +79,8 @@ npm install
 gulp
 ```
 
-It's basically doing, for each package in `catalog.json`:
+If you're curious, this will be doing the following steps, for each package in `catalog.json`
+with a git repo provided:
 - `git clone` it to `/dist`
 - remove the `.git` and `.gitignore` dirs from the clone
 - `bower install` in `/dist/${elementName}/bower_components`
