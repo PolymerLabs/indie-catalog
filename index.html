@@ -36,13 +36,8 @@
     <meta name="msapplication-TileColor" content="#fbbc05">
     <meta name="msapplication-tap-highlight" content="no">
 
-    <link rel="import" href="bower_components/polymer/polymer-element.html">
-    <link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
-    <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
-    <link rel="import" href="bower_components/iron-location/iron-location.html">
-    <link rel="import" href="elements/content-wrapper.html">
-    <link rel="import" href="elements/list-item.html">
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="elements/content-wrapper.html">
     <style>
       html {
         --header-background: #fbbc05;
@@ -55,70 +50,12 @@
         min-height: 100vh;
         background-color: #eeeeee;
       }
-      list-item {
-        padding: 8px 28px;
-      }
     </style>
   </head>
   <body>
-    <iron-location id="url" path="null"></iron-location>
-    <iron-ajax auto url="catalog.json" handle-as="json" id="ajax"></iron-ajax>
-    <content-wrapper>
-      <dom-repeat>
-        <template>
-          <list-item
-              name="[[item.name]]"
-              action=[[item.action]]
-              demo="[[item.demo]]"
-              docs="[[item.docs]]">
-          </list-item>
-        </template>
-      </dom-repeat>
-    </content-wrapper>
-
+    <content-wrapper></content-wrapper>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
-
-    <script>
-      window.addEventListener('WebComponentsReady', function() {
-        ajax.addEventListener('response', onResponse);
-        ajax.addEventListener('error', onError);
-      });
-
-      window.addEventListener('item-clicked', function(event) {
-        url.query = event.detail.name;
-        url.hash = event.detail.type;
-      });
-
-      function onResponse(event) {
-        let fakeData = [];
-        const domrepeat = document.querySelector('dom-repeat');
-
-        let packages = event.detail.response.packages;
-        for (let el in packages) {
-          // If there's a hardcoded demo or docs link, use that
-          fakeData.push({
-            name: el,
-            action: packages[el].description,
-            demo: packages[el].demo ? packages[el].demo : `dist/${el}/bower_components/${el}/demo/index.html`,
-            docs: packages[el].docs ? packages[el].docs : `dist/${el}/docs.html`
-          });
-        }
-        domrepeat.items = fakeData;
-
-        if (url.query && url.hash) {
-          setTimeout(function() {
-            var item = document.querySelector(`list-item[name=${url.query}]`);
-            if (item) {
-              item.doClick(url.hash === 'docs');
-            }
-          }, 1);
-        }
-      }
-      function onError(error) {
-        console.log('oops', error);
-      }
-    </script>
   </body>
 </html>

@@ -1,9 +1,16 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-location/iron-location.html">
+
+<link rel="import" href="content-wrapper.html">
+<link rel="import" href="list-item.html">
 
 <dom-module id="content-wrapper">
   <template>
@@ -41,6 +48,10 @@
         background: #fafafa;
       }
 
+      list-item {
+        padding: 8px 28px;
+      }
+
       @media (max-width: 767px) {
         .horizontal {
           display: block;
@@ -55,8 +66,10 @@
         }
       }
     </style>
-
     <iron-media-query query="(max-width: 767px)" query-matches="{{small}}"></iron-media-query>
+    <iron-location id="url" path="null"></iron-location>
+    <iron-ajax auto url="catalog.json" handle-as="json" id="ajax"></iron-ajax>
+
     <app-header-layout>
       <app-header style="height: 256px;" condenses fixed effects="resize-title" slot="header">
         <app-toolbar>
@@ -70,7 +83,16 @@
 
       <div class="horizontal">
         <div class="left" style="min-width: 256px;">
-          <slot></slot>
+          <dom-repeat id="repeater">
+            <template>
+              <list-item
+                  name="[[item.name]]"
+                  action=[[item.action]]
+                  demo="[[item.demo]]"
+                  docs="[[item.docs]]">
+              </list-item>
+            </template>
+          </dom-repeat>
         </div>
         <div class="right">
           <p id="help">💡 Choose a docs/demo from the menu to begin. </p>
@@ -90,10 +112,16 @@
       ready() {
         super.ready();
 
+        this.$.ajax.addEventListener('response', this.onResponse.bind(this));
+        this.$.ajax.addEventListener('error', this.onError);
+
         this.addEventListener('item-clicked', function(event) {
           this.$.frame.src = event.detail.url;
           this.$.help.hidden = true;
           this.$.frame.hidden = false;
+
+          this.$.url.query = event.detail.name;
+          this.$.url.hash = event.detail.type;
         });
 
         this.$.frame.addEventListener('load', function() {
@@ -103,6 +131,34 @@
             this.style.height = "500px";  // lol.
           }
         });
+      }
+
+      onResponse(event) {
+        let fakeData = [];
+        let packages = event.detail.response.packages;
+        for (let el in packages) {
+          // If there's a hardcoded demo or docs link, use that
+          fakeData.push({
+            name: el,
+            action: packages[el].description,
+            demo: packages[el].demo ? packages[el].demo : `./dist/${el}/bower_components/${el}/demo/index.html`,
+            docs: packages[el].docs ? packages[el].docs : `./dist/${el}/docs.html`
+          });
+        }
+        this.$.repeater.items = fakeData;
+
+        if (this.$.url.query && this.$.url.hash) {
+          setTimeout(function() {
+            var item = this.root.querySelector(`list-item[name=${this.$.url.query}]`);
+            if (item) {
+              item.doClick(this.$.url.hash === 'docs');
+            }
+          }.bind(this), 1);
+        }
+      }
+
+      onError(error) {
+        console.log('oops', error);
       }
     }
 
