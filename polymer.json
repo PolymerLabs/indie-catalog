@@ -1,0 +1,25 @@
+{
+  "entrypoint": "index.html",
+  "fragments": [
+    "elements/list-item.html",
+    "elements/content-wrapper.html"
+  ],
+  "sources": [
+    "elements/**/*",
+    "icons/**/*"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "catalog.json",
+    "bower_components/webcomponentsjs/*",
+    "bower_components/iron-doc-viewer/*"
+  ],
+  "lint": {
+    "rules": ["polymer-2"]
+  },
+  "builds": [
+    {
+      "preset": "es6-bundled"
+    }
+  ]
+}
