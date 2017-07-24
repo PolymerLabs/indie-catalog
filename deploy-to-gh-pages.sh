@@ -11,6 +11,7 @@ repo="indie-catalog"
 #branch="master" # default to master when branch isn't specified
 
 # make folder (same as input, no checking!)
+rm -rf $repo
 mkdir $repo
 git clone https://github.com/$org/$repo.git --single-branch
 
