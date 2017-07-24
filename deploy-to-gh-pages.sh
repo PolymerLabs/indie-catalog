@@ -22,6 +22,7 @@ git checkout --orphan gh-pages
 git rm -rf ./.gitignore
 git rm -rf ./node_modules
 git rm -rf ./dist
+git rm -rf ./build
 git rm -rf ./bower_components
 
 # use bower to install runtime deployment
@@ -32,6 +33,10 @@ bower cache clean # ensure we're getting the latest from the desired branch.
 
 # install the bower deps and also this repo so we can copy the demo
 bower install && gulp
+
+# copy the build output over
+rm index.html
+cp -R build/es6-bundled/* .
 
 # send it all to github
 git add -A .
