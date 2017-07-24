@@ -81,7 +81,7 @@ This should take a while:
 
 ```
 npm install
-gulp
+npm run build
 ```
 
 If you're curious, this will be doing the following steps, for each package in `catalog.json`
