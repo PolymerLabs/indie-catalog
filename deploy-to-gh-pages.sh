@@ -6,9 +6,9 @@
 # dependencies to gh-pages.
 
 # Run in a clean directory passing in a GitHub org and repo name
-org="polymerelements"
+org="polymerlabs"
 repo="indie-catalog"
-branch="master" # default to master when branch isn't specified
+#branch="master" # default to master when branch isn't specified
 
 # make folder (same as input, no checking!)
 mkdir $repo
@@ -35,7 +35,7 @@ bower cache clean # ensure we're getting the latest from the desired branch.
 bower install && gulp
 
 # copy the build output over
-rm index.html
+echo "copying things over..."
 cp -R build/es6-bundled/* .
 
 # send it all to github
