@@ -6,6 +6,7 @@ const fs = require('fs');
 const git = require('gulp-git');
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
+let run = require('gulp-run');
 
 // Analyzer stuff.
 const {Analyzer, generateAnalysis} = require('polymer-analyzer');
@@ -16,19 +17,21 @@ function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
+const BUILD_DIR = __dirname + '/build/es6-bundled';
+
 gulp.task('clean', function() {
-  return del(['dist']);
+  return del([BUILD_DIR + '/dist']);
 });
 
 let repos = [];
 
 gulp.task('checkout', function() {
-  let json = JSON.parse(fs.readFileSync(__dirname + '/catalog.json'));
+  let json = JSON.parse(fs.readFileSync(BUILD_DIR + '/catalog.json'));
   let packages = json.packages;
 
   for (var repo in packages) {
     // The plan: copy all the elements and their deps into `/dist`.
-    let path = __dirname + '/dist/' + repo;
+    let path = BUILD_DIR + '/dist/' + repo;
 
     let repoName = repo;  // save this for later because loops.
     repos.push(path);     // save this for later to run bower on.
@@ -131,6 +134,10 @@ gulp.task('bower', function() {
   console.log('sigh');
 });
 
+gulp.task('polymer-build', function() {
+  return run('polymer build').exec();
+});
+
 gulp.task('default', function(done) {
-  runSequence('clean', 'checkout', 'bower');
+  runSequence('clean', 'polymer-build', 'checkout', 'bower');
 });
