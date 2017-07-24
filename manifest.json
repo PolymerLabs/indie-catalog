@@ -1,6 +1,6 @@
 {
   "name": "indie-catalog",
-  "short_name": "indie-catalog",
+  "short_name": "catalog",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#fbbc05",
