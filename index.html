@@ -3,10 +3,38 @@
   <head>
     <meta charset="utf-8">
     <meta name="generator" content="Indie elements catalog">
+    <meta name="description" content="Indie elements catalog">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
     <title>Indie catalog</title>
-    <meta name="description" content="Indie elements catalog">
+
+    <link rel="icon" href="/icons/favicon.ico">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- See https://goo.gl/qRE0vM -->
+    <meta name="theme-color" content="#fbbc05">
+
+    <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="indie-catalog">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="indie-catalog">
+
+    <!-- Homescreen icons -->
+    <link rel="apple-touch-icon" href="/icons/icon-48x48.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png">
+
+    <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#fbbc05">
+    <meta name="msapplication-tap-highlight" content="no">
 
     <link rel="import" href="bower_components/polymer/polymer-element.html">
     <link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
@@ -78,7 +106,7 @@
           });
         }
         domrepeat.items = fakeData;
-        
+
         if (url.query && url.hash) {
           setTimeout(function() {
             var item = document.querySelector(`list-item[name=${url.query}]`);
