@@ -1,0 +1,23 @@
+{
+  "elements/list-item.html": {},
+  "elements/cat-alog.html": {
+    "elements/list-item.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "index.html": {
+    "bower_components/webcomponentsjs/webcomponents-loader.js": {
+      "type": "script",
+      "weight": 1
+    },
+    "elements/cat-alog.html": {
+      "type": "document",
+      "weight": 1
+    },
+    "elements/list-item.html": {
+      "type": "document",
+      "weight": 1
+    }
+  }
+}
