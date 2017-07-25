@@ -17,7 +17,7 @@ function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-const BUILD_DIR = __dirname + '/build/es6-bundled';
+let BUILD_DIR;
 
 gulp.task('clean', function() {
   return del([BUILD_DIR + '/dist']);
@@ -138,6 +138,20 @@ gulp.task('polymer-build', function() {
   return run('polymer build').exec();
 });
 
+gulp.task('copy-local-dist-to-build', function() {
+  gulp.src(BUILD_DIR + '/dist/**/*').pipe(gulp.dest(`${BUILD_DIR}/build/es6-bundled/dist/`));
+});
+
 gulp.task('default', function(done) {
+  BUILD_DIR = __dirname + '/build/es6-bundled';
   runSequence('clean', 'polymer-build', 'checkout', 'bower');
+});
+
+// Note: this assume your local 'dist' folder is ok. Like:
+// $> gulp
+// $> cp -R build/es6-bundled/dist .
+// $> gulp debug
+gulp.task('debug', function(done) {
+  BUILD_DIR = __dirname;
+  runSequence('polymer-build', 'copy-local-dist-to-build');
 });
