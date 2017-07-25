@@ -113,7 +113,7 @@
         super.ready();
 
         Polymer.RenderStatus.afterNextRender(this, () => {
-
+          this.removeAttribute('unresolved');
           this.$.ajax.addEventListener('response', this.onResponse.bind(this));
           this.$.ajax.addEventListener('error', this.onError);
           this.$.ajax.url = 'catalog.json';
@@ -126,15 +126,6 @@
               this.style.height = "500px";  // lol.
             }
           });
-
-          // Polymer.importHref(this.resolveUrl('lazy-resources.html'), () => {
-          //   // Register service worker if supported.
-          //   if ('serviceWorker' in navigator) {
-          //     navigator.serviceWorker.register('service-worker.js', {scope: '/'});
-          //   }
-          //   this._notifyNetworkStatus();
-          //   this.loadComplete = true;
-          // });
         });
       }
 

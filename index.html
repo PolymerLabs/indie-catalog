@@ -48,10 +48,45 @@
         min-height: 100vh;
         background-color: #eeeeee;
       }
+      
+      [unresolved] .header {
+        height: 256px;
+        width: 100%;
+        background: #fbbc05;
+        color: rgba(0,0,0,.7);
+        line-height: 30px;
+        font-size: 20px;
+        letter-spacing: 0.02em;
+      }
+      [unresolved] h1 {
+        height: 64px;
+        padding: 0 16px;
+        font-size: 2.5em;
+        font-weight: normal;
+        margin: 0;
+        line-height: 1.5;
+        padding-left: 28px;
+        padding-top: 128px;
+      }
+      [unresolved] p {
+        padding: 20px;
+      }
+
+      @media (max-width: 767px) {
+        [unresolved] h1 {
+          font-size: 2em;
+          padding-top: 100px;
+        }
+      }
     </style>
   </head>
   <body>
-    <cat-alog></cat-alog>
+    <cat-alog unresolved>
+      <div class="header">
+        <h1>Indie elements catalog</h1>
+      </div>
+      <p>🙏 hold on...fetching elements!</p>
+    </cat-alog>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
