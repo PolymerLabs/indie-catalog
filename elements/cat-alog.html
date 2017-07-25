@@ -7,12 +7,12 @@
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
 <link rel="import" href="../bower_components/iron-location/iron-location.html">
 
-<link rel="import" href="content-wrapper.html">
 <link rel="import" href="list-item.html">
 
-<dom-module id="content-wrapper">
+<dom-module id="cat-alog">
   <template>
     <style>
       :host {
@@ -68,7 +68,7 @@
     </style>
     <iron-media-query query="(max-width: 767px)" query-matches="{{small}}"></iron-media-query>
     <iron-location id="url" path="null"></iron-location>
-    <iron-ajax auto url="catalog.json" handle-as="json" id="ajax"></iron-ajax>
+    <iron-ajax auto handle-as="json" id="ajax"></iron-ajax>
 
     <app-header-layout>
       <app-header style="height: 256px;" condenses fixed effects="resize-title" slot="header">
@@ -102,8 +102,8 @@
     </app-header-layout>
   </template>
   <script>
-    class ContentWrapper extends Polymer.Element {
-      static get is() { return 'content-wrapper'; }
+    class Catalog extends Polymer.Element {
+      static get is() { return 'cat-alog'; }
       static get properties() {
         return {
           small: {type: Boolean}
@@ -112,24 +112,29 @@
       ready() {
         super.ready();
 
-        this.$.ajax.addEventListener('response', this.onResponse.bind(this));
-        this.$.ajax.addEventListener('error', this.onError);
+        Polymer.RenderStatus.afterNextRender(this, () => {
 
-        this.addEventListener('item-clicked', function(event) {
-          this.$.frame.src = event.detail.url;
-          this.$.help.hidden = true;
-          this.$.frame.hidden = false;
+          this.$.ajax.addEventListener('response', this.onResponse.bind(this));
+          this.$.ajax.addEventListener('error', this.onError);
+          this.$.ajax.url = 'catalog.json';
 
-          this.$.url.query = event.detail.name;
-          this.$.url.hash = event.detail.type;
-        });
+          this.addEventListener('item-clicked', this.onItemClicked.bind(this));
+          this.$.frame.addEventListener('load', function() {
+            try {
+              this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+            } catch(err) {
+              this.style.height = "500px";  // lol.
+            }
+          });
 
-        this.$.frame.addEventListener('load', function() {
-          try {
-            this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
-          } catch(err) {
-            this.style.height = "500px";  // lol.
-          }
+          // Polymer.importHref(this.resolveUrl('lazy-resources.html'), () => {
+          //   // Register service worker if supported.
+          //   if ('serviceWorker' in navigator) {
+          //     navigator.serviceWorker.register('service-worker.js', {scope: '/'});
+          //   }
+          //   this._notifyNetworkStatus();
+          //   this.loadComplete = true;
+          // });
         });
       }
 
@@ -160,9 +165,18 @@
       onError(error) {
         console.log('oops', error);
       }
+
+      onItemClicked(event) {
+        this.$.frame.src = event.detail.url;
+        this.$.help.hidden = true;
+        this.$.frame.hidden = false;
+
+        this.$.url.query = event.detail.name;
+        this.$.url.hash = event.detail.type;
+      }
     }
 
     // Associate the new class with an element name
-    customElements.define(ContentWrapper.is, ContentWrapper);
+    customElements.define(Catalog.is, Catalog);
   </script>
 </dom-module>

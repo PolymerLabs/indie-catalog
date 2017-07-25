@@ -2,7 +2,7 @@
   "entrypoint": "index.html",
   "fragments": [
     "elements/list-item.html",
-    "elements/content-wrapper.html"
+    "elements/cat-alog.html"
   ],
   "sources": [
     "elements/**/*",
