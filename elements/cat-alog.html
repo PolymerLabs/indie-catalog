@@ -87,7 +87,7 @@
             <template>
               <list-item
                   name="[[item.name]]"
-                  action=[[item.action]]
+                  description=[[item.description]]
                   demo="[[item.demo]]"
                   docs="[[item.docs]]">
               </list-item>
@@ -136,7 +136,7 @@
           // If there's a hardcoded demo or docs link, use that
           fakeData.push({
             name: el,
-            action: packages[el].description,
+            description: packages[el].description,
             demo: packages[el].demo ? packages[el].demo : `./dist/${el}/bower_components/${el}/demo/index.html`,
             docs: packages[el].docs ? packages[el].docs : `./dist/${el}/docs.html`
           });

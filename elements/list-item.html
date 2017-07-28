@@ -44,7 +44,7 @@
       <a href$="[[docs]]" target="_blank" rel="noopener" on-click="_onClick" id="docs">📖</a>
       <a href$="[[demo]]" target="_blank" rel="noopener" on-click="_onClick" id="demo">🎥</a>
     </div>
-    <span>[[action]]</span>
+    <span>[[description]]</span>
   </template>
   <script>
     class ListItem extends Polymer.Element {
@@ -55,7 +55,7 @@
             type: String,
             reflectToAttribute: true
           },
-          action: String,
+          description: String,
           demo: String,
           docs: String
         }
