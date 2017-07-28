@@ -83,7 +83,7 @@
 
       <div class="horizontal">
         <div class="left" style="min-width: 256px;">
-          <dom-repeat id="repeater">
+          <dom-repeat items="[[items]]">
             <template>
               <list-item
                   name="[[item.name]]"
@@ -141,7 +141,7 @@
             docs: packages[el].docs ? packages[el].docs : `./dist/${el}/docs.html`
           });
         }
-        this.$.repeater.items = fakeData;
+        this.items = fakeData;
 
         if (this.$.url.query && this.$.url.hash) {
           setTimeout(function() {
