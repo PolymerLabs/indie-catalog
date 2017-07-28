@@ -17,21 +17,19 @@ function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-let BUILD_DIR;
-
 gulp.task('clean', function() {
-  return del([BUILD_DIR + '/dist']);
+  return del([__dirname + '/dist']);
 });
 
 let repos = [];
 
-gulp.task('checkout', function() {
-  let json = JSON.parse(fs.readFileSync(BUILD_DIR + '/catalog.json'));
+gulp.task('make-dist', function() {
+  let json = JSON.parse(fs.readFileSync(__dirname + '/catalog.json'));
   let packages = json.packages;
 
   for (var repo in packages) {
     // The plan: copy all the elements and their deps into `/dist`.
-    let path = BUILD_DIR + '/dist/' + repo;
+    let path = __dirname + '/dist/' + repo;
 
     let repoName = repo;  // save this for later because loops.
     repos.push(path);     // save this for later to run bower on.
@@ -122,36 +120,19 @@ gulp.task('checkout', function() {
   }
 });
 
-// This does't work
-// gulp.task('bower-old', function() {
-//   for (var i = 0; i < repos.length; i++) {
-//     bower({directory: repos[i] + '/bower_components', cwd: repos[i], verbosity: 2});
-//   }
-// });
-
-// And this isn't ready yet
-gulp.task('bower', function() {
-  console.log('sigh');
-});
-
 gulp.task('polymer-build', function() {
   return run('polymer build').exec();
 });
 
-gulp.task('copy-local-dist-to-build', function() {
-  gulp.src(BUILD_DIR + '/dist/**/*').pipe(gulp.dest(`${BUILD_DIR}/build/es6-bundled/dist/`));
+gulp.task('copy-dist-to-build', function() {
+  gulp.src(__dirname + '/dist/**/*').pipe(gulp.dest(`${__dirname}/build/es6-bundled/dist/`));
 });
 
 gulp.task('default', function(done) {
-  BUILD_DIR = __dirname + '/build/es6-bundled';
-  runSequence('clean', 'polymer-build', 'checkout', 'bower');
+  runSequence('clean', 'make-dist', 'polymer-build', 'copy-dist-to-build');
 });
 
-// Note: this assume your local 'dist' folder is ok. Like:
-// $> gulp
-// $> cp -R build/es6-bundled/dist .
-// $> gulp debug
+// Note: this assume your local 'dist' folder is ok (you've ran make-dist in the past)
 gulp.task('debug', function(done) {
-  BUILD_DIR = __dirname;
-  runSequence('polymer-build', 'copy-local-dist-to-build');
+  runSequence('polymer-build', 'copy-dist-to-build');
 });
