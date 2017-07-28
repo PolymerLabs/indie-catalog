@@ -1,0 +1,30 @@
+{
+  "entrypoint": "index.html",
+  "fragments": [
+    "elements/list-item.html",
+    "elements/cat-alog.html"
+  ],
+  "sources": [
+    "elements/**/*",
+    "icons/**/*"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "catalog.json",
+    "bower_components/webcomponentsjs/*",
+    "bower_components/iron-doc-viewer/*",
+    "bower_components/marked-element/*",
+    "bower_components/marked/*/**",
+    "bower_components/prism/*/**",
+    "bower_components/prism-element/*",
+    "bower_components/paper-styles/*"
+  ],
+  "lint": {
+    "rules": ["polymer-2"]
+  },
+  "builds": [
+    {
+      "preset": "es6-bundled"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "entrypoint": "index.html",
+  "fragments": [
+    "elements/list-item.html",
+    "elements/cat-alog.html"
+  ],
+  "sources": [
+    "elements/**/*",
+    "icons/**/*",
+    "index.html",
+    "elements/list-item.html",
+    "elements/cat-alog.html"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "catalog.json",
+    "bower_components/webcomponentsjs/*",
+    "bower_components/iron-doc-viewer/*",
+    "bower_components/marked-element/*",
+    "bower_components/marked/*/**",
+    "bower_components/prism/*/**",
+    "bower_components/prism-element/*",
+    "bower_components/paper-styles/*",
+    "bower_components/webcomponentsjs/*.js"
+  ],
+  "builds": [
+    {
+      "name": "es6-bundled",
+      "browserCapabilities": [
+        "es2015"
+      ],
+      "js": {
+        "minify": true,
+        "compile": false
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      },
+      "bundle": true,
+      "addServiceWorker": true,
+      "addPushManifest": true,
+      "preset": "es6-bundled"
+    }
+  ],
+  "lint": {
+    "rules": [
+      "polymer-2"
+    ]
+  }
+}

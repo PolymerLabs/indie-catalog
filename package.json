@@ -1,0 +1,28 @@
+{
+  "name": "indie-catalog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "build": "rm -rf bower_components && bower cache clean && bower install && gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notwaldorf/indie-catalog.git"
+  },
+  "author": "Monica Dinculescu <noms@google.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/notwaldorf/indie-catalog/issues"
+  },
+  "homepage": "https://github.com/notwaldorf/indie-catalog#readme",
+  "dependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
+    "gulp-git": "^2.3.0",
+    "gulp-run": "^1.7.1",
+    "polymer-analyzer": "^2.0.2",
+    "run-sequence": "^1.2.2"
+  }
+}
