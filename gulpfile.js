@@ -89,23 +89,29 @@ gulp.task('make-dist', function() {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>${repoName}</title>
+  <link rel="import" href="../../bower_components/polymer/polymer.html">
   <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
   <link rel="import" href="../../bower_components/iron-doc-viewer/iron-doc-viewer.html">
   <link rel="import" href="../../bower_components/iron-doc-viewer/default-theme.html">
-  <link rel="import" href="../../bower_components/polymer/lib/elements/custom-style.html">
-  <link rel="import" href="../../bower_components/polymer/lib/elements/dom-bind.html">
   <script src="../../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-  <custom-style>
-    <style is="custom-style" include="iron-doc-default-theme"></style>
-  </custom-style>
 </head>
 <body>
-  <dom-bind>
+  <!-- "custom-style" does not work with "iron-doc-default-theme" in FF -->
+  <dom-module id="x-doc-viewer">
     <template>
+      <style include="iron-doc-default-theme"></style>
       <iron-ajax auto url="./descriptor.json" last-response="{{response}}" handle-as="json"></iron-ajax>
       <iron-doc-viewer descriptor="[[response]]"></iron-doc-viewer>
     </template>
-  </dom-bind>
+    <script>
+      window.addEventListener('WebComponentsReady', function() {
+        Polymer({
+          is: "x-doc-viewer"
+        });
+      });
+    </script>
+  </dom-module>
+  <x-doc-viewer></x-doc-viewer>
 </body>
 </html>
 `;
